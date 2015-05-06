@@ -48,7 +48,7 @@ public class Turret : MonoBehaviour {
 	void Update () {
 		if (Application.isEditor && !Application.isPlaying) {
 			maxReach.DrawDebug (transform);
-		} else {
+		} else if (!Ship.instance.inGarage) {
 			if(lastFire < Time.time) {
 				lastFire = Time.time + fireRate;
 				List<GameObject> currentTargets = new List<GameObject> ();

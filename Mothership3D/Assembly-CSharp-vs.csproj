@@ -58,6 +58,7 @@
      <Compile Include="Assets\Projectile.cs" />
      <Compile Include="Assets\Reach.cs" />
      <Compile Include="Assets\SceneManager.cs" />
+     <Compile Include="Assets\Ship.cs" />
      <Compile Include="Assets\Test.cs" />
      <Compile Include="Assets\ToolManager.cs" />
      <Compile Include="Assets\Turret.cs" />
