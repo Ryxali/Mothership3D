@@ -153,8 +153,6 @@ public class Reach {
 		Debug.DrawRay (origin.position, Quaternion.Euler(-uradius, 0, 0) * origin.forward, Color.yellow);
 	}
 
-	private float radius { get { return (dradius + uradius + rradius + lradius) / 4; } }
-
 	public bool inReach(Transform self, Transform target) {
 		Vector3 pointOnPlaneU = Vector3.ProjectOnPlane (target.position, self.up);
 		Vector3 pointOnPlaneR = Vector3.ProjectOnPlane (target.position, self.right);
