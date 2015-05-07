@@ -16,9 +16,11 @@ public class CameraMovement_Build : MonoBehaviour {
 	void Update () {
 		float vert = Input.GetAxis ("Vertical");
 		float hor = Input.GetAxis ("Horizontal");
+		float alt = Input.GetAxis("Altitude");
 		Vector3 nPos = transform.position;
 		nPos += transform.forward * (vert * panningSpeed);
 		nPos += transform.right * (hor * panningSpeed);
+		nPos += transform.up * (alt * panningSpeed);
 		transform.position = nPos;
 
 

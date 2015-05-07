@@ -22,7 +22,11 @@ public class Reach {
 		rradius = (a.rradius < b.rradius) ? a.rradius : b.rradius;
 		dradius = (a.dradius < b.dradius) ? a.dradius : b.dradius;
 		uradius = (a.uradius < b.uradius) ? a.uradius : b.uradius;
+
 	}
+
+	private Quaternion lrRotation;
+	private Quaternion udRotation;
 
 	/// <summary>
 	/// Creates a Reach, constrained by the smallest radiuses
@@ -51,6 +55,7 @@ public class Reach {
 		private set {
 			lr = value;
 			lr_Rad = lr * Mathf.Deg2Rad;
+			lrRotation = Quaternion.AngleAxis (lradius - rradius, Vector3.up);
 		} 
 	}
 	/// <summary>
@@ -71,6 +76,7 @@ public class Reach {
 		private set {
 			rr = value;
 			rr_Rad = rr * Mathf.Deg2Rad;
+			lrRotation = Quaternion.AngleAxis (lradius - rradius, Vector3.up);
 		} 
 	}
 	/// <summary>
@@ -80,6 +86,8 @@ public class Reach {
 	public float rradius_Rad { get { return rr_Rad; } }
 	[SerializeField]
 	private float rr_Rad;
+
+	private float hradius { get { return (lradius + rradius) / 2; } }
 
 	[SerializeField]
 	private float dr;
@@ -92,6 +100,7 @@ public class Reach {
 		private set {
 			dr = value;
 			dr_Rad = dr * Mathf.Deg2Rad;
+			udRotation = Quaternion.AngleAxis (uradius - dradius, Vector3.right);
 		} 
 	}
 	/// <summary>
@@ -113,6 +122,7 @@ public class Reach {
 		private set {
 			ur = value;
 			ur_Rad = ur * Mathf.Deg2Rad;
+			udRotation = Quaternion.AngleAxis (uradius - dradius, Vector3.right);
 		}
 	}
 	/// Get the upwards radius in radians.
@@ -121,6 +131,8 @@ public class Reach {
 	public float uradius_Rad { get { return ur_Rad; } }
 	[SerializeField]
 	private float ur_Rad;
+
+	private float vradius { get { return (uradius + dradius) / 2; } }
 
 	/// <summary>
 	/// Call this function from custom editor to automatically
@@ -146,6 +158,7 @@ public class Reach {
 	public bool inReach(Transform self, Transform target) {
 		Vector3 pointOnPlaneU = Vector3.ProjectOnPlane (target.position, self.up);
 		Vector3 pointOnPlaneR = Vector3.ProjectOnPlane (target.position, self.right);
-		return Vector3.Angle(self.forward, (target.position - self.position).normalized) < radius;
+		return Vector3.Angle (udRotation * self.forward, (pointOnPlaneU - self.position).normalized) < vradius &&
+			Vector3.Angle (lrRotation * self.forward, (pointOnPlaneR - self.position).normalized) < hradius;
 	}
 }

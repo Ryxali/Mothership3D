@@ -11,6 +11,7 @@ public class Cannon : Turret {
 	protected override void onUpdate(List<GameObject> targets) {
 		foreach (GameObject target in targets) {
 			fire (target);
+			return;
 		}
 	}
 
