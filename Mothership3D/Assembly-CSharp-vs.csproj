@@ -46,27 +46,29 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CameraManager.cs" />
-     <Compile Include="Assets\CameraMovement_Build.cs" />
-     <Compile Include="Assets\CameraRotationComponent.cs" />
-     <Compile Include="Assets\Cannon.cs" />
-     <Compile Include="Assets\CannonEditor.cs" />
-     <Compile Include="Assets\EnemyManager.cs" />
-     <Compile Include="Assets\Fieldy.cs" />
-     <Compile Include="Assets\LolRotate.cs" />
-     <Compile Include="Assets\Persistent.cs" />
-     <Compile Include="Assets\Projectile.cs" />
-     <Compile Include="Assets\Reach.cs" />
-     <Compile Include="Assets\SceneManager.cs" />
-     <Compile Include="Assets\Ship.cs" />
-     <Compile Include="Assets\Test.cs" />
-     <Compile Include="Assets\ToolManager.cs" />
-     <Compile Include="Assets\Turret.cs" />
-     <Compile Include="Assets\TurretEditor.cs" />
-     <Compile Include="Assets\TurretMType.cs" />
-     <Compile Include="Assets\TurretSize.cs" />
-     <Compile Include="Assets\TurretSlot.cs" />
-     <Compile Include="Assets\TurretSlotEditor.cs" />
+     <Compile Include="Assets\Scripts\Camera\CameraManager.cs" />
+     <Compile Include="Assets\Scripts\Camera\CameraMovement_Build.cs" />
+     <Compile Include="Assets\Scripts\Camera\CameraRotationComponent.cs" />
+     <Compile Include="Assets\Scripts\Classes\Fieldy.cs" />
+     <Compile Include="Assets\Scripts\Classes\Reach.cs" />
+     <Compile Include="Assets\Scripts\Classes\TurretMType.cs" />
+     <Compile Include="Assets\Scripts\Classes\TurretSize.cs" />
+     <Compile Include="Assets\Scripts\Editors\AimingTurretEditor.cs" />
+     <Compile Include="Assets\Scripts\Editors\CannonEditor.cs" />
+     <Compile Include="Assets\Scripts\Editors\TurretEditor.cs" />
+     <Compile Include="Assets\Scripts\Editors\TurretSlotEditor.cs" />
+     <Compile Include="Assets\Scripts\EnemyManager.cs" />
+     <Compile Include="Assets\Scripts\LolRotate.cs" />
+     <Compile Include="Assets\Scripts\Projectile.cs" />
+     <Compile Include="Assets\Scripts\SceneManager.cs" />
+     <Compile Include="Assets\Scripts\Ship.cs" />
+     <Compile Include="Assets\Scripts\ToolManager.cs" />
+     <Compile Include="Assets\Scripts\Turret\AimingTurret.cs" />
+     <Compile Include="Assets\Scripts\Turret\Cannon.cs" />
+     <Compile Include="Assets\Scripts\Turret\Turret.cs" />
+     <Compile Include="Assets\Scripts\Turret\TurretSlot.cs" />
+     <Compile Include="Assets\Scripts\Turret\TurretSocket.cs" />
+     <Compile Include="Assets\Scripts\Utils\Persistent.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

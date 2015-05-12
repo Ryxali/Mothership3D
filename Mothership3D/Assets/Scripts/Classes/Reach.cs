@@ -147,10 +147,10 @@ public class Reach {
 	}
 
 	public void DrawDebug(Transform origin) {
-		Debug.DrawRay (origin.position, Quaternion.Euler(0, -lradius, 0) * origin.forward, Color.yellow);
-		Debug.DrawRay (origin.position, Quaternion.Euler(0, rradius, 0) * origin.forward, Color.yellow);
-		Debug.DrawRay (origin.position, Quaternion.Euler(dradius, 0, 0) * origin.forward, Color.yellow);
-		Debug.DrawRay (origin.position, Quaternion.Euler(-uradius, 0, 0) * origin.forward, Color.yellow);
+		Debug.DrawRay (origin.position, Quaternion.AngleAxis(-lradius, origin.up) * origin.forward, Color.yellow);
+		Debug.DrawRay (origin.position, Quaternion.AngleAxis(rradius, origin.up) * origin.forward, Color.yellow);
+		Debug.DrawRay (origin.position, Quaternion.AngleAxis(dradius, origin.right) * origin.forward, Color.yellow);
+		Debug.DrawRay (origin.position, Quaternion.AngleAxis(-uradius, origin.right) * origin.forward, Color.yellow);
 	}
 
 	public bool inReach(Transform self, Transform target) {

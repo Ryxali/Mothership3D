@@ -28,4 +28,8 @@ public class ToolManager : MonoBehaviour {
 
 		
 	}
+
+	public void setCurrent(Turret turret) {
+		current = turret;
+	}
 }
