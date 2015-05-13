@@ -57,10 +57,16 @@ public class Turret : MonoBehaviour {
 					   reach.inReach(transform, obj.transform)) {
 						currentTargets.Add(obj);
 					}
+					break;
 				}
 				onUpdate (currentTargets);
+
 			}
 		}
+		tick ();
+	}
+
+	protected virtual void tick() {
 
 	}
 

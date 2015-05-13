@@ -17,10 +17,14 @@ public class AimingTurret : Turret {
 		head = (Transform)EditorGUILayout.ObjectField ("Head", head, typeof(Transform), true);
 	}
 
+	protected override void tick() {
+		reach.DrawDebug (head);
+	}
+
 	protected override void onUpdate(List<GameObject> targets) {
 		foreach (GameObject target in targets) {
 			head.LookAt(target.transform.position);
-			fire (target);
+			//fire (target);
 			return;
 		}
 	}

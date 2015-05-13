@@ -25,8 +25,6 @@ public class Reach {
 
 	}
 
-	private Quaternion lrRotation;
-	private Quaternion udRotation;
 
 	/// <summary>
 	/// Creates a Reach, constrained by the smallest radiuses
@@ -55,7 +53,6 @@ public class Reach {
 		private set {
 			lr = value;
 			lr_Rad = lr * Mathf.Deg2Rad;
-			lrRotation = Quaternion.AngleAxis (lradius - rradius, Vector3.up);
 		} 
 	}
 	/// <summary>
@@ -76,7 +73,6 @@ public class Reach {
 		private set {
 			rr = value;
 			rr_Rad = rr * Mathf.Deg2Rad;
-			lrRotation = Quaternion.AngleAxis (lradius - rradius, Vector3.up);
 		} 
 	}
 	/// <summary>
@@ -100,7 +96,6 @@ public class Reach {
 		private set {
 			dr = value;
 			dr_Rad = dr * Mathf.Deg2Rad;
-			udRotation = Quaternion.AngleAxis (uradius - dradius, Vector3.right);
 		} 
 	}
 	/// <summary>
@@ -122,7 +117,6 @@ public class Reach {
 		private set {
 			ur = value;
 			ur_Rad = ur * Mathf.Deg2Rad;
-			udRotation = Quaternion.AngleAxis (uradius - dradius, Vector3.right);
 		}
 	}
 	/// Get the upwards radius in radians.
@@ -154,9 +148,15 @@ public class Reach {
 	}
 
 	public bool inReach(Transform self, Transform target) {
-		Vector3 pointOnPlaneU = Vector3.ProjectOnPlane (target.position, self.up);
-		Vector3 pointOnPlaneR = Vector3.ProjectOnPlane (target.position, self.right);
-		return Vector3.Angle (udRotation * self.forward, (pointOnPlaneU - self.position).normalized) < vradius &&
-			Vector3.Angle (lrRotation * self.forward, (pointOnPlaneR - self.position).normalized) < hradius;
+		Vector3 pointOnPlaneU = Vector3.ProjectOnPlane (target.position - self.position, self.up);
+		Vector3 pointOnPlaneR = Vector3.ProjectOnPlane (target.position - self.position, self.right);
+		Quaternion udRotation = Quaternion.AngleAxis ((dradius - uradius)/2, self.right);
+		Quaternion lrRotation = Quaternion.AngleAxis ((lradius - rradius)/2, self.up);
+		/*Debug.DrawRay (self.position, pointOnPlaneU.normalized, Color.blue);
+		Debug.DrawRay (self.position, lrRotation * self.forward, Color.cyan);
+		Debug.DrawRay (self.position, pointOnPlaneR.normalized, Color.red);
+		Debug.DrawRay (self.position, udRotation * self.forward, Color.magenta);*/
+		return Vector3.Angle (udRotation * self.forward, pointOnPlaneR.normalized) < vradius &&
+			Vector3.Angle (lrRotation * self.forward, pointOnPlaneU.normalized) < hradius;
 	}
 }
