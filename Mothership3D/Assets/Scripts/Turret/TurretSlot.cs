@@ -11,7 +11,6 @@ public class TurretSlot : MonoBehaviour {
 
 	void Update() {
 		reach.DrawDebug(transform);
-
 		/*
 		Vector3 dr = (D_radius + R_radius).normalized;//Quaternion.Euler (dradius, rradius, 0) * transform.forward;
 		Vector3 ur = (U_radius + R_radius).normalized;//Quaternion.Euler (-uradius, rradius, 0) * transform.forward;
@@ -29,12 +28,14 @@ public class TurretSlot : MonoBehaviour {
 	}
 
 	public void setTurret(Turret t) {
-		removeTurret();
-		turret = (Turret) Instantiate(t);
-		turret.transform.position = transform.position;
-		turret.transform.parent = transform;
-		turret.transform.rotation = transform.rotation;
-		turret.setSlot (this);
+		if (fits (t)) {
+			removeTurret();
+			turret = (Turret) Instantiate(t);
+			turret.transform.position = transform.position;
+			turret.transform.parent = transform;
+			turret.transform.rotation = transform.rotation;
+			turret.setSlot (this);
+		}
 	}
 
 	private void removeTurret() {
