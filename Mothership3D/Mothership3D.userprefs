@@ -1,10 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Classes\Reach.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Battleship.cs">
     <Files>
-      <File FileName="Assets\Scripts\Classes\Reach.cs" Line="158" Column="77" />
-      <File FileName="Assets\Scripts\Turret\AimingTurret.cs" Line="24" Column="53" />
-      <File FileName="Assets\Scripts\Turret\Turret.cs" Line="69" Column="33" />
+      <File FileName="Assets\Scripts\Battleship.cs" Line="18" Column="19" />
+      <File FileName="Assets\Scripts\Frigate.cs" Line="8" Column="3" />
+      <File FileName="Assets\Scripts\Ship.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Camera\CameraManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Utils\Persistent.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\SceneManager.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

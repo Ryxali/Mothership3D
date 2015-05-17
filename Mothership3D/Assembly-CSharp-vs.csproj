@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Battleship.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraManager.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraMovement_Build.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraRotationComponent.cs" />
@@ -58,6 +59,7 @@
      <Compile Include="Assets\Scripts\Editors\TurretEditor.cs" />
      <Compile Include="Assets\Scripts\Editors\TurretSlotEditor.cs" />
      <Compile Include="Assets\Scripts\EnemyManager.cs" />
+     <Compile Include="Assets\Scripts\Frigate.cs" />
      <Compile Include="Assets\Scripts\LolRotate.cs" />
      <Compile Include="Assets\Scripts\Projectile.cs" />
      <Compile Include="Assets\Scripts\SceneManager.cs" />
