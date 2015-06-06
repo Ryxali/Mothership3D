@@ -1,13 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Battleship.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Classes\SaveGame.cs">
     <Files>
-      <File FileName="Assets\Scripts\Battleship.cs" Line="18" Column="19" />
-      <File FileName="Assets\Scripts\Frigate.cs" Line="8" Column="3" />
-      <File FileName="Assets\Scripts\Ship.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Camera\CameraManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Utils\Persistent.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SceneManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Enums\SaveFileResult.cs" Line="2" Column="42" />
+      <File FileName="Assets\Scripts\Frigate.cs" Line="7" Column="18" />
+      <File FileName="Assets\Scripts\Classes\SaveFile.cs" Line="22" Column="29" />
+      <File FileName="Assets\Scripts\Classes\SaveGame.cs" Line="53" Column="26" />
+      <File FileName="Assets\Scripts\Classes\SaveGameIndexer.cs" Line="6" Column="32" />
+      <File FileName="Assets\Scripts\Ship.cs" Line="3" Column="38" />
+      <File FileName="Assets\Scripts\Turret\Turret.cs" Line="51" Column="1" />
+      <File FileName="Assets\Scripts\Battleship.cs" Line="22" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

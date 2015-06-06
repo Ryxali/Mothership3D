@@ -1,0 +1,3 @@
+﻿public enum SaveFileResult {
+	SUCCESS, INVALID_TYPE, NOT_SERIALIZEABLE, FILE_NO_EXISTS
+}
