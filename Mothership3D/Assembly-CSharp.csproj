@@ -52,9 +52,8 @@
      <Compile Include="Assets\Scripts\Camera\CameraRotationComponent.cs" />
      <Compile Include="Assets\Scripts\Classes\Fieldy.cs" />
      <Compile Include="Assets\Scripts\Classes\Reach.cs" />
-     <Compile Include="Assets\Scripts\Classes\SaveFile.cs" />
-     <Compile Include="Assets\Scripts\Classes\SaveGame.cs" />
-     <Compile Include="Assets\Scripts\Classes\SaveGameIndexer.cs" />
+     <Compile Include="Assets\Scripts\Classes\Save\SaveFile.cs" />
+     <Compile Include="Assets\Scripts\Classes\Save\SaveGame.cs" />
      <Compile Include="Assets\Scripts\Classes\TurretMType.cs" />
      <Compile Include="Assets\Scripts\Classes\TurretSize.cs" />
      <Compile Include="Assets\Scripts\Editors\AimingTurretEditor.cs" />
@@ -63,7 +62,9 @@
      <Compile Include="Assets\Scripts\Editors\TurretSlotEditor.cs" />
      <Compile Include="Assets\Scripts\EnemyManager.cs" />
      <Compile Include="Assets\Scripts\Enums\SaveFileResult.cs" />
+     <Compile Include="Assets\Scripts\Enums\SaveGameFields.cs" />
      <Compile Include="Assets\Scripts\Frigate.cs" />
+     <Compile Include="Assets\Scripts\Interfaces\Serializeable.cs" />
      <Compile Include="Assets\Scripts\LolRotate.cs" />
      <Compile Include="Assets\Scripts\Projectile.cs" />
      <Compile Include="Assets\Scripts\SceneManager.cs" />

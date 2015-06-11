@@ -1,38 +1,104 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System;
 
 /// <summary>
 /// Used for storing fields relevant
 /// to a single game session.
 /// </summary>
 /// 
+[System.Serializable]
 public class SaveGameData {
-	internal SaveGameContainer data;
-	public string ship { get { return data.ship; } set { data.ship = value; } }
+	private object[] data;
+
+	private enum SaveGameFields {
+		SHIP, SOMEVAL, EX0,
+		
+		
+		
+		END_LIST
+	}
+
+	public string ex0 {
+		get { return GetValue<string>(SaveGameFields.EX0); }
+		set { SetValue(SaveGameFields.EX0, value); }
+	}
+
+
+
+
+	/// <summary>
+	/// Get the value stored at the specified key
+	/// as the specified type.
+	/// Returns - the object with the specified key,
+	/// or null - should none exist.
+	/// </summary>
+	/// <returns>The raw value.</returns>
+	/// <param name="key">Key.</param>
+	private T GetValue<T>(SaveGameFields field) {
+		if (field >= SaveGameFields.END_LIST) {
+			Debug.LogError ("Could not get field [" + field + "]" +
+				"\nReason: " + field + " >= " + SaveGameFields.END_LIST);
+		} else if(data[(int)field] == null) {
+			return default(T);
+		}else if (!(data[(int)field] is T)) {
+			Debug.LogError ("Could not get field [" + field + "]" +
+			                "\nReason: " + data[(int) field].GetType() +
+			                " is not compatible with " + typeof(T));
+
+		} else {
+			return (T)data[(int)field];
+		}
+		return default(T);
+	}
+
+	/// <summary>
+	/// Set a value among the SaveGameData,
+	/// inserting the value with the specified key.
+	/// </summary>
+	/// <param name="key">Key.</param>
+	/// <param name="value">Value.</param>
+	private void SetValue(SaveGameFields field, object value) {
+		if (field >= SaveGameFields.END_LIST) {
+			Debug.LogError ("Could not set field [" + field + "]" +
+				"\nReason: " + field + " >= " + SaveGameFields.END_LIST);
+		} else {
+			data [(int)field] = value;
+		}
+	}
+
 	public SaveGameData() {
-		data = new SaveGameContainer ();
+		data = new object[(int)SaveGameFields.END_LIST];
 	}
-	internal SaveGameData(SaveGameContainer c) {
-		data = c;
+
+	public SaveGameData(object[] data) {
+		if (data.Length == (int) SaveGameFields.END_LIST) {
+			this.data = data;
+		} else {
+			Debug.LogError ("Could not load data. \nReason: array length " +
+			                data.Length + " != " + SaveGameFields.END_LIST);
+			data = new object[(int)SaveGameFields.END_LIST];
+		}
 	}
+
+
 }
 
 /// <summary>
 /// Used to hide the ablility to save the data to disk,
 /// preventing misuse.
 /// </summary>
-[System.Serializable]
+/*[System.Serializable]
 internal class SaveGameContainer {
-	public string ship;
-	internal SaveGameContainer () : this("") {
-	}
+	internal object[] fields;
 
-	internal SaveGameContainer(string s) {
-		this.ship = s;
+	internal SaveGameContainer (SaveGameFields size) {
+			fields = new object[size] ();
 	}
 	
-}
+}*/
 
 
 /// <summary>
@@ -123,7 +189,7 @@ public class SaveGame {
 	/// </summary>
 	public static void Save() {
 		if (current.currentValid) {
-			SaveFile.SaveData<SaveGameContainer> (current.currentTrueName, current.data.data);
+			SaveFile.SaveData<SaveGameData> (current.currentTrueName, current.data);
 		} else {
 			Debug.LogError("Current is empty! Cannot save.");
 		}
@@ -141,15 +207,15 @@ public class SaveGame {
 
 		if (SaveFile.Exists(handle.trueName)) {
 
-			SaveGameContainer c;
-			switch(SaveFile.LoadData<SaveGameContainer>(handle.trueName, out c)) {
+			SaveGameData c;
+			switch(SaveFile.LoadData<SaveGameData>(handle.trueName, out c)) {
 			case SaveFileResult.FILE_NO_EXISTS:
 			case SaveFileResult.INVALID_TYPE:
 			case SaveFileResult.NOT_SERIALIZEABLE:
 				Debug.LogError("A fatal error occured while loading SaveGame");
 				break;
 			default:
-				current.SetCurrent(new SaveGameData(c), handle);
+				current.SetCurrent(c, handle);
 				break;
 			}
 
