@@ -2,7 +2,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Classes\Save\SaveGame.cs">
     <Files>
-      <File FileName="Assets\Scripts\Classes\Save\SaveGame.cs" Line="139" Column="2" />
+      <File FileName="Assets\Scripts\Classes\Save\SaveGame.cs" Line="150" Column="29" />
       <File FileName="Assets\Scripts\Enums\SaveFileResult.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Enums\SaveGameFields.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Frigate.cs" Line="1" Column="1" />
