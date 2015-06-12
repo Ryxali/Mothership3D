@@ -10,6 +10,7 @@ public class Ship : MonoBehaviour {
 	void Awake() {
 		instance = this;
 		rbody = GetComponent<Rigidbody> ();
+		
 	}
 
 	public void setInTheGarage(bool val) {

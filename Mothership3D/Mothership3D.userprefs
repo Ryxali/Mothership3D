@@ -1,13 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Classes\Save\SaveGame.cs">
     <Files>
-      <File FileName="Assets\Scripts\Classes\Save\SaveGame.cs" Line="150" Column="29" />
+      <File FileName="Assets\Scripts\Classes\Save\SaveGame.cs" Line="217" Column="2" />
       <File FileName="Assets\Scripts\Enums\SaveFileResult.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Enums\SaveGameFields.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Frigate.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Interfaces\Serializeable.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Ship.cs" Line="12" Column="38" />
+      <File FileName="Assets\Scripts\Ship.cs" Line="13" Column="3" />
       <File FileName="Assets\Scripts\Turret\TurretSlot.cs" Line="13" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>

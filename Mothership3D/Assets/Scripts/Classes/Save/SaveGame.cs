@@ -11,22 +11,29 @@ using System;
 /// 
 [System.Serializable]
 public class SaveGameData {
-	private object[] data;
+	private Dictionary<string, object> data;
 
-	private enum SaveGameFields {
-		SHIP, SOMEVAL, EX0,
-		
-		
-		
-		END_LIST
-	}
+	protected static readonly string CORE_FIELD_PREFIX = "msp_";
 
+	// Define core fields below
+	private static readonly string EX0_KEY = CORE_FIELD_PREFIX + "EX0";
 	public string ex0 {
-		get { return GetValue<string>(SaveGameFields.EX0); }
-		set { SetValue(SaveGameFields.EX0, value); }
+		get { return GetValue<string>(EX0_KEY); }
+		set { SetValue(EX0_KEY, value); }
 	}
 
-
+	private static readonly string SHIP_POSITION_KEY = CORE_FIELD_PREFIX + "SHIP_POSITION";
+	/// <summary>
+	/// Gets or sets the player's ship's position.
+	/// </summary>
+	/// <value>The ship position.</value>
+	public Vector3 shipPosition {
+		get { 
+			if(!HasValue(SHIP_POSITION_KEY)) SetValue(SHIP_POSITION_KEY, Vector3.zero);
+			return GetValue<Vector3>(SHIP_POSITION_KEY); 
+		}
+		set { SetValue(SHIP_POSITION_KEY, value); }
+	}
 
 
 	/// <summary>
@@ -37,21 +44,28 @@ public class SaveGameData {
 	/// </summary>
 	/// <returns>The raw value.</returns>
 	/// <param name="key">Key.</param>
-	private T GetValue<T>(SaveGameFields field) {
-		if (field >= SaveGameFields.END_LIST) {
-			Debug.LogError ("Could not get field [" + field + "]" +
-				"\nReason: " + field + " >= " + SaveGameFields.END_LIST);
-		} else if(data[(int)field] == null) {
-			return default(T);
-		}else if (!(data[(int)field] is T)) {
-			Debug.LogError ("Could not get field [" + field + "]" +
-			                "\nReason: " + data[(int) field].GetType() +
-			                " is not compatible with " + typeof(T));
-
+	protected T GetValue<T>(string key) {
+		object val = null;
+		if (data.TryGetValue (key, out val)) {
+			if(val is T){
+				return (T) val;
+			} else {
+				Debug.LogError("Could not get save game value with key: " + key + "\nReason: Could not cast to value type. (" + val.GetType() + " to " + typeof(T) + ")");
+			}
 		} else {
-			return (T)data[(int)field];
+			Debug.LogError("Could not get save game value with key: " + key + "\nReason: key doesn't exist.");
+
 		}
 		return default(T);
+	}
+
+	/// <summary>
+	/// Check whether the key currently exists.
+	/// </summary>
+	/// <returns><c>true</c> if this instance has value the specified key; otherwise, <c>false</c>.</returns>
+	/// <param name="key">Key.</param>
+	protected bool HasValue(string key) {
+		return data.ContainsKey (key);
 	}
 
 	/// <summary>
@@ -60,116 +74,146 @@ public class SaveGameData {
 	/// </summary>
 	/// <param name="key">Key.</param>
 	/// <param name="value">Value.</param>
-	private void SetValue(SaveGameFields field, object value) {
-		if (field >= SaveGameFields.END_LIST) {
-			Debug.LogError ("Could not set field [" + field + "]" +
-				"\nReason: " + field + " >= " + SaveGameFields.END_LIST);
-		} else {
-			data [(int)field] = value;
-		}
+	protected void SetValue(string key, object value) {
+		data.Add (key, value);
 	}
 
-	public SaveGameData() {
-		data = new object[(int)SaveGameFields.END_LIST];
+	/// <summary>
+	/// Initializes a new empty instance of the <see cref="SaveGameData"/> class.
+	/// </summary>
+	protected SaveGameData() {
+		data = new Dictionary<string, object>();
 	}
-
-	public SaveGameData(object[] data) {
-		if (data.Length == (int) SaveGameFields.END_LIST) {
-			this.data = data;
-		} else {
-			Debug.LogError ("Could not load data. \nReason: array length " +
-			                data.Length + " != " + SaveGameFields.END_LIST);
-			data = new object[(int)SaveGameFields.END_LIST];
-		}
+	/// <summary>
+	/// Initializes a new instance of the <see cref="SaveGameData"/> class, filling
+	/// it with the data provided.
+	/// </summary>
+	/// <param name="data">Data.</param>
+	protected SaveGameData(Dictionary<string, object> data) {
+		this.data = data;
 	}
 
 
 }
 
 /// <summary>
-/// Used to hide the ablility to save the data to disk,
-/// preventing misuse.
-/// </summary>
-/*[System.Serializable]
-internal class SaveGameContainer {
-	internal object[] fields;
-
-	internal SaveGameContainer (SaveGameFields size) {
-			fields = new object[size] ();
-	}
-	
-}*/
-
-
-/// <summary>
-/// Used to identify a save file
+/// Used to identify a save file, containing both a nice
+/// name suited for display and the true name of the file.
 /// </summary>
 public class SaveGameFileHandle
 {
-	public string niceName { get; private set; }
-	public string trueName { get; private set; }
-	internal SaveGameFileHandle(string trueName) {
-		this.trueName = trueName;
-		this.niceName = trueName.TrimEnd(SaveGame.saveEndingAsCharArray);
+	/// <summary>
+	/// Get the nice name of the file ("foo")
+	/// </summary>
+	public string niceName { get; protected set; }
+	/// <summary>
+	/// Get the true name of the file ("foo.mgs")
+	/// </summary>
+	public string trueName { get; protected set; }
+	protected SaveGameFileHandle() {
+
 	}
 }
 
-public class CurrentSlot
-{
-	public SaveGameData data { get { return c; } }
-	
-	/// <summary>
-	/// The name of the current save file in nice format ("foo")
-	/// </summary>
-	public string currentSlotName {
-		get { return n.niceName; }
-	}
-	
-	/// <summary>
-	/// The name of the current save file in true format ("foo.save")
-	/// </summary>
-	public string currentTrueName {
-		get { return n.trueName; }
-	}
-	
-	/// <summary>
-	/// Whether we have a current SaveGameData
-	/// </summary>
-	public bool currentValid { get { return valid; } }
-	
-	internal void SetCurrent(SaveGameData data, SaveGameFileHandle name) {
-		c = data;
-		valid = true;
-		n = name;
-	}
-	
-	/// <summary>
-	/// The name of the current save file in true format ("foo.save")
-	/// </summary>
-	private SaveGameFileHandle n = null;
-	private bool valid = false;
-	private SaveGameData c = null;
-}
 
 
 
 
+/// <summary>
+/// Contains all relevant functionality regarding the saving
+/// and loading of savegames, also providing access to the most
+/// recently loaded save.
+/// </summary>
 public class SaveGame {
-	internal static readonly string saveFileEndingName = ".save";
-	internal static readonly char[] saveEndingAsCharArray = saveFileEndingName.ToCharArray();
-	public static CurrentSlot current {
-		get { return cur; }
-	}
+	/// <summary>
+	/// The standardized ending for all game save files
+	/// </summary>
+	public static readonly string saveFileEndingName = ".mgs";
+	public static readonly char[] saveFileEndingAsCharArray = saveFileEndingName.ToCharArray();
+
+	/// <summary>
+	/// Get the currently loaded Save Game Data.
+	/// </summary>
+	/// <value>The current data.</value>
+	public static SaveGameData currentData {	get { return cur.data; } }
+	/// <summary>
+	/// Get the nice name of the currently loaded save ("foo")
+	/// </summary>
+	/// <value>The name of the current slot nice.</value>
+	public static string currentSlotNiceName { get { return cur.currentSlotNiceName; } }
+	/// <summary>
+	/// Get the true name of the currently loaded save ("foo.mgs")
+	/// </summary>
+	/// <value>The name of the current slot true.</value>
+	public static string currentSlotTrueName { get { return cur.currentSlotTrueName; } }
+	/// <summary>
+	/// Whether we have a current Save Game Data
+	/// </summary>
+	/// <value><c>true</c> if current valid; otherwise, <c>false</c>.</value>
+	public static bool currentValid { get { return cur.currentValid; } }
+	
 	private static CurrentSlot cur = new CurrentSlot();
 
 	/// <summary>
-	/// Ensures no funny business happens to the saveName;
+	/// Used to hide the constructablility of the SaveGameFileHandle
 	/// </summary>
-	///
+	private class SaveGameFileHandle_Impl : SaveGameFileHandle {
+		public SaveGameFileHandle_Impl(string trueName) {
+			this.trueName = trueName;
+			this.niceName = trueName.TrimEnd(SaveGame.saveFileEndingAsCharArray);
+		}
+	}
+	/// <summary>
+	/// Defines the current save.
+	/// </summary>
+	private class CurrentSlot
+	{
+		public SaveGameData data { get { return c; } }
+		
+		/// <summary>
+		/// The name of the current save file in nice format ("foo")
+		/// </summary>
+		public string currentSlotNiceName {
+			get { return n.niceName; }
+		}
+		
+		/// <summary>
+		/// The name of the current save file in true format ("foo.mgs")
+		/// </summary>
+		public string currentSlotTrueName {
+			get { return n.trueName; }
+		}
+		
+		/// <summary>
+		/// Whether we have a current SaveGameData
+		/// </summary>
+		public bool currentValid { get { return valid; } }
+		
+		internal void SetCurrent(SaveGameData data, SaveGameFileHandle name) {
+			c = data;
+			valid = true;
+			n = name;
+		}
+		
+		/// <summary>
+		/// The name of the current save file in true format ("foo.save")
+		/// </summary>
+		private SaveGameFileHandle n = null;
+		private bool valid = false;
+		private SaveGameData c = null;
+	}
 
+	/// <summary>
+	/// Used to hide the construction of SaveGameData
+	/// </summary>
+	[System.Serializable]
+	private class SaveGameData_Impl : SaveGameData {
 
-
-	
+		public SaveGameData_Impl() : base() {
+		}
+		public SaveGameData_Impl(Dictionary<string, object> data) : base(data) {
+		}
+	}
 
 	/// <summary>
 	/// Get a list of all available save files.
@@ -179,7 +223,7 @@ public class SaveGame {
 		string[] arr = Directory.GetFiles (Application.persistentDataPath, "*" + saveFileEndingName);
 		SaveGameFileHandle[] arrtrim = new SaveGameFileHandle[arr.Length];
 		for (int i = 0; i < arrtrim.Length; i++) {
-			arrtrim[i] = new SaveGameFileHandle(arr[i].Substring(arr[i].LastIndexOfAny(new char[]{'/', '\\'}) + 1));//arr[i].TrimEnd(saveEndingAsCharArray);
+			arrtrim[i] = new SaveGameFileHandle_Impl(arr[i].Substring(arr[i].LastIndexOfAny(new char[]{'/', '\\'}) + 1));//arr[i].TrimEnd(saveEndingAsCharArray);
 		}
 		return arrtrim;
 	}
@@ -188,15 +232,19 @@ public class SaveGame {
 	/// Saves the current SaveGameData to disk.
 	/// </summary>
 	public static void Save() {
-		if (current.currentValid) {
-			SaveFile.SaveData<SaveGameData> (current.currentTrueName, current.data);
+		if (cur.currentValid) {
+			SaveFile.SaveData<SaveGameData> (currentSlotTrueName, currentData);
 		} else {
 			Debug.LogError("Current is empty! Cannot save.");
 		}
 	}
 
+	/// <summary>
+	/// Creates a new empty save.
+	/// </summary>
+	/// <param name="niceName">Nice name.</param>
 	public static void CreateEmpty(string niceName) {
-		current.SetCurrent(new SaveGameData(), new SaveGameFileHandle(niceName + saveFileEndingName));
+		cur.SetCurrent(new SaveGameData_Impl(), new SaveGameFileHandle_Impl(niceName + saveFileEndingName));
 	}
 
 	/// <summary>
@@ -215,7 +263,7 @@ public class SaveGame {
 				Debug.LogError("A fatal error occured while loading SaveGame");
 				break;
 			default:
-				current.SetCurrent(c, handle);
+				cur.SetCurrent(c, handle);
 				break;
 			}
 
